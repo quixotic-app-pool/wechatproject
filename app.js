@@ -1,9 +1,27 @@
 var app = require('express')();
-app.get('/',function(req, res, next){
 
-  res.send("come from Michael Chen")
 
-})
+
+// app.get('/',function(req, res, next){
+//
+//   res.send("come from Michael Chen")
+//
+// })
+var wechat = require('wechat');
+var config = {
+  token: 'michaelchen',
+  appid: 'wxba9eb4bfb3f26d57',
+  encodingAESKey: 'encodinAESKey',
+  checkSignature: false // 可选，默认为true。由于微信公众平台接口调试工具在明文模式下不发送签名，所以如要使用该测试工具，请将其设置为false
+};
+
+app.use(express.query());
+app.use('/wechat', wechat(config, function (req, res, next) {
+  // 微信输入信息都在req.weixin上
+  var message = req.weixin;
+  res.send("wechat plugin works----michael chen");
+}));
+
 
 app.listen(8080);
 console.log('Listening 8080...')
